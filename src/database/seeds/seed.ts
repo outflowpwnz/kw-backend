@@ -138,26 +138,26 @@ const DEFAULT_SETTINGS: Record<string, string> = {
 const TEAM_MEMBERS_DATA = [
   {
     name: 'Екатерина Карпенко',
-    description: 'Основатель студии и ведущий организатор. 7 лет в свадебной индустрии, более 150 свадеб.',
-    photoUrl: '/uploads/placeholder-team.jpg',
+    description: 'Основатель & ведущий организатор',
+    photoUrl: 'http://localhost:3000/images/wedding-planners/wedding-planner-ekaterina.jpg',
     sortOrder: 1,
   },
   {
-    name: 'Анастасия Морозова',
-    description: 'Координатор дня. Мастер тайминга и управления командой в день свадьбы.',
-    photoUrl: '/uploads/placeholder-team.jpg',
+    name: 'Александра',
+    description: 'Организатор',
+    photoUrl: 'http://localhost:3000/images/wedding-planners/wedding-planner-alexandra.jpg',
     sortOrder: 2,
   },
   {
-    name: 'Марина Соколова',
-    description: 'Флорист и декоратор. Создаёт атмосферу из цветов, ткани и деталей.',
-    photoUrl: '/uploads/placeholder-team.jpg',
+    name: 'Алина',
+    description: 'Организатор',
+    photoUrl: 'http://localhost:3000/images/wedding-planners/wedding-planner-alina.jpg',
     sortOrder: 3,
   },
   {
-    name: 'Виктория Петрова',
-    description: 'Ассистент организатора. Следит за каждой мелочью, чтобы всё было идеально.',
-    photoUrl: '/uploads/placeholder-team.jpg',
+    name: 'Мария',
+    description: 'Координатор',
+    photoUrl: 'http://localhost:3000/images/wedding-planners/wedding-planner-maria.jpg',
     sortOrder: 4,
   },
 ];

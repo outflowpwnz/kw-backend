@@ -16,8 +16,11 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
-    "seed": "ts-node -r tsconfig-paths/register src/database/seeds/seed.ts",
-    "typeorm": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js"
+    "typeorm": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js -d src/database/data-source.ts",
+    "db:reset": "npm run db:drop && npm run seed",
+    "db:drop": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js -d src/database/data-source.ts schema:drop",
+    "migration:run": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js -d src/database/data-source.ts migration:run",
+    "seed": "ts-node -r tsconfig-paths/register src/database/seeds/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.3.0",

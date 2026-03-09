@@ -47,8 +47,8 @@ export class AuthController {
   @ApiOperation({ summary: 'Текущий пользователь' })
   @ApiResponse({ status: 200, description: 'Данные текущего пользователя' })
   @ApiResponse({ status: 401, description: 'Не авторизован' })
-  me(@CurrentUser() user: JwtPayload): { id: string; login: string; role: string } {
-    return { id: user.sub, login: user.login, role: user.role };
+  me(@CurrentUser() user: JwtPayload): { id: string; login: string; name: string; role: string } {
+    return { id: user.sub, login: user.login, name: user.name, role: user.role };
   }
 
   @Post('logout')
