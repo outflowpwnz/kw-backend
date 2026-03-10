@@ -1,49 +1,58 @@
+networks:
+  karpenko_net:
+    name: karpenko_net
+    driver: bridge
+
 services:
-  # ─── PostgreSQL ────────────────────────────────────────────────────────────
+
   postgres:
     image: postgres:16-alpine
-    container_name: karpenko_wedding_postgres
+    container_name: karpenko_postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-karpenko}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB:-karpenko_wedding}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    ports:
-      - '5432:5432'
+    networks:
+      - karpenko_net
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-karpenko_wedding}']
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-karpenko} -d ${POSTGRES_DB:-karpenko_wedding}"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
 
-  # ─── NestJS Backend ────────────────────────────────────────────────────────
   backend:
     build:
       context: .
       dockerfile: Dockerfile
       target: runner
-    container_name: karpenko_wedding_backend
+    container_name: karpenko_backend
     restart: unless-stopped
-    depends_on:
-      postgres:
-        condition: service_healthy
     environment:
       NODE_ENV: production
-      PORT: ${PORT:-4000}
-      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-karpenko_wedding}
+      PORT: 4000
+      DATABASE_URL: postgresql://${POSTGRES_USER:-karpenko}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-karpenko_wedding}
       JWT_SECRET: ${JWT_SECRET}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
       ADMIN_LOGIN: ${ADMIN_LOGIN:-admin}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
       FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
-    ports:
-      - '${PORT:-4000}:4000'
     volumes:
-      # Persist uploaded files between container restarts
       - uploads_data:/app/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - karpenko_net
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:4000/api/v1/packages || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
 
 volumes:
   postgres_data:
