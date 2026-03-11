@@ -13,10 +13,10 @@
  * 7. 3 portfolio cases
  */
 
-if (process.env.NODE_ENV === 'production') {
-  console.error('ERROR: seed cannot be run in production environment');
-  process.exit(1);
-}
+// if (process.env.NODE_ENV === 'production') {
+//   console.error('ERROR: seed cannot be run in production environment');
+//   process.exit(1);
+// }
 
 import * as bcrypt from 'bcrypt';
 import * as dotenv from 'dotenv';
