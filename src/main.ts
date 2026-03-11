@@ -21,13 +21,9 @@ async function bootstrap(): Promise<void> {
   );
 
   // ── CORS ────────────────────────────────────────────────
-  const frontendUrl = process.env.FRONTEND_URL ?? 'http://localhost:3000';
-  const adminUrl = process.env.ADMIN_URL ?? 'http://localhost:3001';
   app.enableCors({
-    origin: [frontendUrl, adminUrl, 'http://localhost:3000', 'http://localhost:3001'],
-    credentials: true, // Required for cookies
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    origin: true, // позволяет все запросы с того же origin (только через Nginx)
+    credentials: true,
   });
 
   // ── Cookie parsing ──────────────────────────────────────
